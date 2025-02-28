@@ -1,0 +1,12 @@
+#logo {
+    display: flex;
+    justify-content: center;
+    opacity: .8;
+    height: 7rem;
+    padding: 1rem;
+  }
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
