@@ -24,14 +24,20 @@ function searchName(name){
     const nameCase = name.toLowerCase();
 
     //filter the characters array for matches on the character full name, first name, or last name
+
+
+
+    //FIRST
     const matches = characters.filter(character => {
         //split character name into different variables to match potential inputs
-        let [firstName, lastName] = character["Name"].toLowerCase().split(" ")
-        let fullName = character["Name"].toLowerCase()
+        const nameParts = character["Name"].toLowerCase().split(" ");
+        return nameParts.includes(nameCase) || character["Name"].toLowerCase().includes(nameCase)
+        // let [firstName, lastName] = character["Name"].toLowerCase().split(" ")
+        // let fullName = character["Name"].toLowerCase()
         
-        if (firstName === nameCase || lastName === nameCase || fullName === nameCase){
-            return character
-        }
+        // if (firstName === nameCase || lastName === nameCase || fullName === nameCase){
+        //     return character
+        // }
     })
     // get the IDs of matched characters
     const ids = [];
