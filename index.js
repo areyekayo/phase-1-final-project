@@ -32,7 +32,7 @@ function searchName(name){
     
     })
     // get the IDs of matched characters
-    const ids = matches.map(match => match["id"])
+    const ids = matches.map(match => match["id"].toString())
 
     // get an array of character cards
     let cards = Array.from(document.getElementsByClassName("character-card"))
