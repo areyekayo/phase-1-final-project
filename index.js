@@ -23,28 +23,16 @@ function searchName(name){
     */
     const nameCase = name.toLowerCase();
 
-    //filter the characters array for matches on the character full name, first name, or last name
-
-
-
-    //FIRST
+    //filter the characters array for matches on the character's  name
     const matches = characters.filter(character => {
-        //split character name into different variables to match potential inputs
+        
+        //split character name into an array in case of irregular character name
         const nameParts = character["Name"].toLowerCase().split(" ");
         return nameParts.includes(nameCase) || character["Name"].toLowerCase().includes(nameCase)
-        // let [firstName, lastName] = character["Name"].toLowerCase().split(" ")
-        // let fullName = character["Name"].toLowerCase()
-        
-        // if (firstName === nameCase || lastName === nameCase || fullName === nameCase){
-        //     return character
-        // }
+    
     })
     // get the IDs of matched characters
-    const ids = [];
-    for (let match of matches){
-        let id = match["id"].toString();
-        ids.push(id)
-    }
+    const ids = matches.map(match => match["id"])
 
     // get an array of character cards
     let cards = Array.from(document.getElementsByClassName("character-card"))
