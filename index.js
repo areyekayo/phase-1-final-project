@@ -15,7 +15,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const nameToSearch = document.getElementById("name-to-search").value;
         searchName(nameToSearch);
     })
+
+    const filter = document.getElementById("species-filter")
+    filter.addEventListener("change", () => {
+        filterBySpecies(filter.value)
+    })
 })
+
+function filterBySpecies(species) {
+    //get cards that are displayed
+    const matches = characters.filter(character => {
+        return character["Species"] === species
+    })
+    console.log(matches)
+
+    const ids = matches.map(match => match["id"].toString())
+    console.log(ids)
+
+    //note: this is too limiting...
+    const cards = Array.from(document.querySelectorAll(`div[style*="display: block"] `))
+
+    cards.forEach(card => {
+        const shouldDisplay = ids.includes(card.id)
+        if (!shouldDisplay){
+            card.style.display = "none";
+        }
+    })
+
+}
 
 function searchName(name){
     /*
@@ -46,9 +73,7 @@ function searchName(name){
         else {
             card.style.display = "none";
         }
-
     })
-
 }
 
 function addCharacter(char){
@@ -81,7 +106,8 @@ function addCharacter(char){
     const image = document.createElement("img");
     card.className = "character-card"
 
-    card.id = character["id"]
+    card.id = character["id"];
+    card.style.display = "block";
 
     image.src = character["image"];
 
