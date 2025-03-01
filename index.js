@@ -16,8 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.getElementById("search-form")
     searchForm.addEventListener("submit", (e) => {
         e.preventDefault()
-        const nameToSearch = document.getElementById("name-to-search").value;
-        searchName(nameToSearch);
+        searchName(document.getElementById("name-to-search").value);
         searchForm.reset()
     })
 
@@ -33,30 +32,30 @@ function getMatchIds(name, species, matchBoth) {
     let matches;
     //if name & species need to both be matched, get IDs that meet both parameters
     if (matchBoth === true){
-        let nameMatches = getNameMatches(name);
-        let speciesMatches = getSpeciesMatches(species)
+        let nameMatches = getNameIds(name);
+        let speciesMatches = getSpeciesIds(species)
         let set = new Set(nameMatches)
         matches = speciesMatches.filter(element => set.has(element))
     }
     //get IDs for only species
     else if (name === undefined && matchBoth === false){
-        matches = getSpeciesMatches(species)
+        matches = getSpeciesIds(species)
     }
     //get IDs for only names
     else if (species === undefined && matchBoth === false){
-        matches = getNameMatches(name)
+        matches = getNameIds(name)
     }
     //searchState.searchResults = matches.length
     return matches
 }
 
-function getSpeciesMatches(species){
+function getSpeciesIds(species){
     //Processes species filter and returns character IDs that match
     
     let matches;
     //if All Species filter is selected, get all character IDs
     if (species === "All"){
-        matches = characters.reduce((acc, character) => {
+       matches = characters.reduce((acc, character) => {
             acc.push(character["id"]);
             return acc
         }, [])
@@ -71,7 +70,7 @@ function getSpeciesMatches(species){
     }   
 }
 
-function getNameMatches(name){
+function getNameIds(name){
     //Processes name search and returns character IDs that match the name
     const nameCase = name.toLowerCase();
     const matches = characters.filter(character => {
@@ -83,22 +82,19 @@ function getNameMatches(name){
 }
 
 function displayAllCharacters(){
-    //Displays all characters if the clear all button is clicked
+    //Displays all character cards
     let cards = Array.from(document.getElementsByClassName("character-card"))
-    cards.forEach(card => {
-        card.style.display = "block";
-    })
+    cards.forEach(card => card.style.display = "block")
+    
     //reset search state keys to empty
-    setSearchState("", "", characters.length)
-
+    setSearchState("", "", cards.length)
     //reset species filter to "All"
     document.getElementById("species-filter").value = "All"
 }
 
 function displayMatches(ids){
-    /*
-    Takes matched IDs of characters and displays the character card
-    */
+    // Displays the character cards of passed IDs
+
     const cards = Array.from(document.getElementsByClassName("character-card"))
     cards.forEach(card => {
 
@@ -114,30 +110,25 @@ function displayMatches(ids){
 }
 
 function filterBySpecies(species) {
-    /*
-    Takes the input of selected species filter, gets ID matches, 
-    and displays matched character cards
-    */
+    /// Takes the input of selected species filter, gets ID matches, and displays matched character cards
 
     let ids;
-    //check to see if a name has been searched for
+    // check to see if a name has been searched for
     if (searchState.name !== ""){
-        //get IDs for characters that match name and species
+        // get IDs for characters that match name and species
         ids = getMatchIds(searchState.name, species, true)
     }
     else {
-        //otherwise get IDs for only species
+        // otherwise get IDs for only species
         ids = getMatchIds(undefined, species, false)
     }
-    //display matched cards and set search state
+    // display matched cards and set search state
     displayMatches(ids)
     setSearchState(undefined, species, ids.length)
 }
 
 function searchName(name){
-    /*
-    Takes the input of character name search and finds matches in the characters array
-    */
+    // Takes the input of character name search and finds matches in the characters array
 
     let ids;
     if (searchState.species !== ""){
@@ -154,7 +145,9 @@ function searchName(name){
 }
 
 function setSearchState(name, species, count){
-    //function to display name/species parameters and count of search results below search bar
+    /*
+    Display name/species parameters and count of search results below search bar. Pass 'undefined' for parameters that aren't user input. If clearing all search parameters, pass "" for both name and species.
+    */
     let nameP = document.getElementById("name-state");
     let speciesP = document.getElementById("species-state");
     let resultsCount = document.getElementById("results-count");
@@ -179,7 +172,6 @@ function setSearchState(name, species, count){
         nameP.style.display = "none";
         speciesP.innerText = "";
         speciesP.style.display = "none";
-        searchState.searchResults = characters.length
     }
     searchState.searchResults = count;
     resultsCount.innerText = `${searchState.searchResults} Characters`
