@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //fetch characters from API
     fetch("https://rickandmortyapi.com/api/character")
         .then(res => res.json())
-        .then(data => {
-            data["results"].forEach(character => addCharacter(character))
-    })
+        .then(data => data["results"].forEach(character => addCharacter(character)))
 
     const searchForm = document.getElementById("search-form")
     searchForm.addEventListener("submit", (e) => {
@@ -24,9 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     const filter = document.getElementById("species-filter")
-    filter.addEventListener("change", () => {
-        filterBySpecies(filter.value)
-    })
+    filter.addEventListener("change", () => filterBySpecies(filter.value))
 
     const clearButton = document.getElementById("clear-button");
     clearButton.addEventListener("click", () => displayAllCharacters())
@@ -55,13 +51,13 @@ function getMatchIds(name, species, matchBoth) {
 }
 
 function getSpeciesMatches(species){
-    //Returns a list of character IDs that match the species filter
+    //Processes species filter and returns character IDs that match
     
     let matches;
     //if All Species filter is selected, get all character IDs
     if (species === "All"){
         matches = characters.reduce((acc, character) => {
-            acc.push(character["id"].toString());
+            acc.push(character["id"]);
             return acc
         }, [])
         return matches
@@ -71,19 +67,19 @@ function getSpeciesMatches(species){
          matches = characters.filter(character => {
             return character["Species"] === species
          })
-        return matches.map(match => match["id"].toString())
+        return matches.map(match => match["id"])
     }   
 }
 
 function getNameMatches(name){
-    //Processes name search and returns a list of character IDs that match the name
+    //Processes name search and returns character IDs that match the name
     const nameCase = name.toLowerCase();
     const matches = characters.filter(character => {
         //split character name into an array in case of irregular character name
         const nameParts = character["Name"].toLowerCase().split(" ");
         return nameParts.includes(nameCase) || character["Name"].toLowerCase().includes(nameCase)
     })
-    return matches.map(match => match["id"].toString())
+    return matches.map(match => match["id"])
 }
 
 function displayAllCharacters(){
@@ -142,20 +138,19 @@ function filterBySpecies(species) {
 
 function searchName(name){
     /*
-    Takes the input of character name search, finds matches in the characters array, and displays matched character cards
+    Takes the input of character name search and finds matches in the characters array
     */
 
     let ids;
-    //check if a species filter is already selected
     if (searchState.species !== ""){
-        //get IDs for characters that match name and species
+        //if species is in search state, get IDs for characters that match name and species
         ids = getMatchIds(name, searchState.species, true)
     }
     else {
         //otherwise get IDs for only species
         ids = getMatchIds(name, undefined, false)
     }
-
+    //send IDs to display matches
     displayMatches(ids)
 
     //set search state with name parameter, undefined species, and length of ids
@@ -203,7 +198,7 @@ function addCharacter(char){
     const container = document.getElementById("character-container");
 
     const character = {
-        "id": char.id,
+        "id": char.id.toString(),
         "Name": char.name,
         "Status": char.status,
         "Gender": char.gender,
