@@ -22,14 +22,18 @@
                 value=""
                 placeholder="Enter a character name"
                 class="input-text">
-            <input type="submit" value="Search for character name">
-        </form>   
-
-        <select id="species-filter" name="species">
-            <option>Select a species</option>
+          <select id="species-filter" name="species">
+            <option value="All">All species</option>
             <option value="Human">Human</option>
             <option value="Alien">Alien</option>
             </select>
+            <input type="submit" value="Search">
+        </form>  
+        <button type="button" id="clear-button">Clear Search</button> 
+    </div>
+    <div id="state-container">
+      <p class="search-state" id="name-state" style="display: none;"></p>
+      <p class="search-state" id="species-state" style="display: none;"></p>
     </div>
     <br />
 

@@ -30,3 +30,28 @@ h2 {
     border: grey solid 1px;
     padding: 1rem;
 }
+
+#clear-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#state-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-state {
+    float: left;
+    border: blue 1px;
+    border-style: solid;
+    color: blue;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
+}
+
+
+
