@@ -101,9 +101,9 @@ function displayMatches(ids){
     */
     const cards = Array.from(document.getElementsByClassName("character-card"))
     cards.forEach(card => {
+
         //display cards if the card ID is in the matched IDs
-        const shouldDisplay = ids.includes(card.id)
-        if (shouldDisplay){
+        if (ids.includes(card.id)){
             card.style.display = "block";
         }
         //if not, hide card
@@ -115,7 +115,7 @@ function displayMatches(ids){
 
 function filterBySpecies(species) {
     /*
-    Takes the input of selected species filter, finds matches in characters, 
+    Takes the input of selected species filter, gets ID matches, 
     and displays matched character cards
     */
 
@@ -129,10 +129,8 @@ function filterBySpecies(species) {
         //otherwise get IDs for only species
         ids = getMatchIds(undefined, species, false)
     }
-
+    //display matched cards and set search state
     displayMatches(ids)
-
-    //set search state with undefined name, species, and length of ids
     setSearchState(undefined, species, ids.length)
 }
 
@@ -150,10 +148,8 @@ function searchName(name){
         //otherwise get IDs for only species
         ids = getMatchIds(name, undefined, false)
     }
-    //send IDs to display matches
+    //display matched cards and set search state
     displayMatches(ids)
-
-    //set search state with name parameter, undefined species, and length of ids
     setSearchState(name, undefined, ids.length)
 }
 
