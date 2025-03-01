@@ -27,6 +27,83 @@ document.addEventListener("DOMContentLoaded", () => {
     clearButton.addEventListener("click", () => displayAllCharacters())
 })
 
+function addCharacter(char){
+    /*
+    Adds characters for initial fetch
+    */
+    const container = document.getElementById("character-container");
+
+    const character = {
+        "id": char.id.toString(),
+        "Name": char.name,
+        "Status": char.status,
+        "Gender": char.gender,
+        "Species": char.species,
+        "Type": char.type,
+        "image": char.image
+    }
+    //Save character object in Characters array
+    characters.push(character)
+
+    //create attributes for character card
+    const keys = ["Name", "Status", "Gender", "Species", "Type"]
+    const ul = document.createElement("ul")
+    for (let key of keys){
+        const li = document.createElement("li");
+        li.textContent = `${key}: ${character[key]}`
+        li.className = key;
+        ul.append(li)
+    }
+    //add card, card properties, and image
+    const card = document.createElement("div");
+    const image = document.createElement("img");
+    card.className = "character-card"
+    card.id = character["id"];
+    card.style.display = "block";
+
+    image.src = character["image"];
+    card.append(image, ul)
+    container.append(card)
+
+    //set search state
+    setSearchState("","", characters.length)
+}
+
+function filterBySpecies(species) {
+    /// Takes the input of selected species filter, gets ID matches, and displays matched character cards
+
+    let ids;
+    // check to see if a name has been searched for
+    if (searchState.name !== ""){
+        // get IDs for characters that match name and species
+        ids = getMatchIds(searchState.name, species, true)
+    }
+    else {
+        // otherwise get IDs for only species
+        ids = getMatchIds(undefined, species, false)
+    }
+    // display matched cards and set search state
+    displayMatches(ids)
+    setSearchState(undefined, species, ids.length)
+}
+
+function searchName(name){
+    // Takes the input of character name search and finds matches in the characters array
+
+    let ids;
+    if (searchState.species !== ""){
+        //if species is in search state, get IDs for characters that match name and species
+        ids = getMatchIds(name, searchState.species, true)
+    }
+    else {
+        //otherwise get IDs for only species
+        ids = getMatchIds(name, undefined, false)
+    }
+    //display matched cards and set search state
+    displayMatches(ids)
+    setSearchState(name, undefined, ids.length)
+}
+
 function getMatchIds(name, species, matchBoth) {
     //High level function to get the IDs for searched names and/or filtered species
     let matches;
@@ -109,44 +186,9 @@ function displayMatches(ids){
     })
 }
 
-function filterBySpecies(species) {
-    /// Takes the input of selected species filter, gets ID matches, and displays matched character cards
-
-    let ids;
-    // check to see if a name has been searched for
-    if (searchState.name !== ""){
-        // get IDs for characters that match name and species
-        ids = getMatchIds(searchState.name, species, true)
-    }
-    else {
-        // otherwise get IDs for only species
-        ids = getMatchIds(undefined, species, false)
-    }
-    // display matched cards and set search state
-    displayMatches(ids)
-    setSearchState(undefined, species, ids.length)
-}
-
-function searchName(name){
-    // Takes the input of character name search and finds matches in the characters array
-
-    let ids;
-    if (searchState.species !== ""){
-        //if species is in search state, get IDs for characters that match name and species
-        ids = getMatchIds(name, searchState.species, true)
-    }
-    else {
-        //otherwise get IDs for only species
-        ids = getMatchIds(name, undefined, false)
-    }
-    //display matched cards and set search state
-    displayMatches(ids)
-    setSearchState(name, undefined, ids.length)
-}
-
 function setSearchState(name, species, count){
     /*
-    Display name/species parameters and count of search results below search bar. Pass 'undefined' for parameters that aren't user input. If clearing all search parameters, pass "" for both name and species.
+    Display name/species parameters and count of search results below search bar. Pass 'undefined' for parameters that aren't being passed. If clearing all search parameters, pass "" for both name and species.
     */
     let nameP = document.getElementById("name-state");
     let speciesP = document.getElementById("species-state");
@@ -176,49 +218,4 @@ function setSearchState(name, species, count){
     searchState.searchResults = count;
     resultsCount.innerText = `${searchState.searchResults} Characters`
     resultsCount.style.display = "block";
-
-}
-
-function addCharacter(char){
-    /*
-    Adds characters for initial fetch
-    */
-    const container = document.getElementById("character-container");
-
-    const character = {
-        "id": char.id.toString(),
-        "Name": char.name,
-        "Status": char.status,
-        "Gender": char.gender,
-        "Species": char.species,
-        "Type": char.type,
-        "image": char.image
-    }
-    //Save character object in Characters array
-    characters.push(character)
-
-    //create attributes for character card
-    const keys = ["Name", "Status", "Gender", "Species", "Type"]
-    const ul = document.createElement("ul")
-    for (let key of keys){
-        const li = document.createElement("li");
-        li.textContent = `${key}: ${character[key]}`
-        li.className = key;
-        ul.append(li)
-    }
-    //add card, card properties, and image
-    const card = document.createElement("div");
-    const image = document.createElement("img");
-    card.className = "character-card"
-    card.id = character["id"];
-    card.style.display = "block";
-
-    image.src = character["image"];
-
-    card.append(image, ul)
-    container.append(card)
-
-    //set search state
-    setSearchState("","", characters.length)
-
 }
