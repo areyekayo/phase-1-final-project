@@ -22,20 +22,23 @@
                 value=""
                 placeholder="Enter a character name"
                 class="input-text">
-          <select id="species-filter" name="species">
-            <option value="All">All species</option>
-            <option value="Human">Human</option>
-            <option value="Alien">Alien</option>
-            </select>
             <input type="submit" value="Search">
         </form>  
-        <button type="button" id="clear-button">Clear Search</button> 
+        <select id="species-filter" name="species">
+          <option value="All">All species</option>
+          <option value="Human">Human</option>
+          <option value="Alien">Alien</option>
+          </select>
+          <button type="button" id="clear-button">Clear All</button> 
     </div>
     <div id="state-container">
       <p class="search-state" id="name-state" style="display: none;"></p>
       <p class="search-state" id="species-state" style="display: none;"></p>
+      <br />
+      <p class="search-state" id="results-count">Results</p>
     </div>
     <br />
+
 
     <div id="character-container">
 

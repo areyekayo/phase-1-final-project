@@ -31,10 +31,6 @@ h2 {
     padding: 1rem;
 }
 
-#clear-button {
-    margin-left: 5px;
-    margin-right: 5px;
-}
 
 #state-container {
     display: flex;
@@ -53,5 +49,16 @@ h2 {
     padding: 1px;
 }
 
+#species-filter {
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
+#results-count {
+    border-style: solid;
+    border: black 1px;
+    color: black;
+    display: flex;
+    justify-content: center;
+}
 
