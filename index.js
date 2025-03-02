@@ -128,23 +128,17 @@ function getMatchIds(name, species, matchBoth) {
 }
 
 function getSpeciesIds(species){
-    //Processes species filter and returns character IDs that match
+    //Returns character IDs that match species filter
     
-    let matches;
     //if All Species filter is selected, get all character IDs
     if (species === "All species"){
-       matches = characters.reduce((acc, character) => {
-            acc.push(character["id"]);
-            return acc
-        }, [])
-        return matches
+        return characters.map(character => character["id"])
     }
     //otherwise, get characters that match Human or Alien species
     else {
-         matches = characters.filter(character => {
+         return characters.filter(character => {
             return character["Species"] === species
-         })
-        return matches.map(match => match["id"])
+        }).map(match => match["id"])
     }   
 }
 
